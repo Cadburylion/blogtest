@@ -11,11 +11,11 @@ class Blog extends React.Component {
     this.postData = this.postData.bind(this)
   }
   componentDidMount(){
-    // api_key: 'splntegknn4wmc7f6wc1el2ry4eoj55tdyexwjhv',
     // let feed = '?rss_url=https://medium.com/feed/@message2america'
     let url = 'https://api.rss2json.com/v1/api.json'
     let feed = '?rss_url=https://medium.jasonmdesign.com/feed'
-    this.postData(url + feed)
+    let key = '&api_key=splntegknn4wmc7f6wc1el2ry4eoj55tdyexwjhv'
+    this.postData(url + feed + key)
 }
   postData(url){
     fetch(url)
@@ -27,13 +27,13 @@ class Blog extends React.Component {
     })
   }
   render(){
-    console.log('feed: ', this.state)
+    const title = this.state.articles ? this.state.articles.feed.title : ''
     return(
-        <BlogField>
+        <BlogField title={title}>
           {this.state.articles ?
             this.state.articles.items.map((article, index) =>
               <Article
-                key={index}
+                key={article.pubDate + '-' + index}
                 article={article}
                 time={
                   <TimeFormat time={article.pubDate}/>

@@ -17,7 +17,7 @@ const TimeFormat = ({time}) => {
       case '10': return 'Oct'
       case '11': return 'Nov'
       case '12': return 'Dec'
-      default: ''
+      default: return ''
     }
   }
 
