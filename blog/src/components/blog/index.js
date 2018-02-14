@@ -1,4 +1,8 @@
 import React from 'react'
+import Article from './article.js'
+import BlogField from './blog-field.js'
+import TimeFormat from './time-format.js'
+// import Timestamp from 'react-timestamp'
 
 class Blog extends React.Component {
   constructor(props){
@@ -7,9 +11,8 @@ class Blog extends React.Component {
     this.postData = this.postData.bind(this)
   }
   componentDidMount(){
-    // rss_url: 'https://medium.jasonmdesign.com/feed',
-    // rss_url: 'https://medium.com/feed/matthewparker_44839',
     // api_key: 'splntegknn4wmc7f6wc1el2ry4eoj55tdyexwjhv',
+    // let feed = '?rss_url=https://medium.com/feed/@message2america'
     let url = 'https://api.rss2json.com/v1/api.json'
     let feed = '?rss_url=https://medium.jasonmdesign.com/feed'
     this.postData(url + feed)
@@ -24,21 +27,21 @@ class Blog extends React.Component {
     })
   }
   render(){
-    console.log('state: ', this.state)
+    console.log('feed: ', this.state)
     return(
-      <div>
-      {this.state.articles ?
-        this.state.articles.items.map((article, index) =>
-          <div key={index} className='blog-wrapper' style={{width: '380px'}}>
-            <div className='blog-image' >
-              <img src={article.thumbnail} style={{width: '100%'}}/>
-            </div>
-            <a href={article.link} target='_#' className='blog-title'>{article.title}</a>
-          </div>
-        )
-        : undefined
-      }
-      </div>
+        <BlogField>
+          {this.state.articles ?
+            this.state.articles.items.map((article, index) =>
+              <Article
+                key={index}
+                article={article}
+                time={
+                  <TimeFormat time={article.pubDate}/>
+                }/>
+            )
+            : null
+          }
+        </BlogField>
     )
   }
 }
